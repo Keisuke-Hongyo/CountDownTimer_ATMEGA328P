@@ -497,6 +497,7 @@ void setDistDay(TactSw *sw)
             lcd.setCursor(0, 1);
             lcd.print("Max Day=");
             lcd.print(MaxDay);
+            lcd.print("   ");
             break;
 
         case 4:
