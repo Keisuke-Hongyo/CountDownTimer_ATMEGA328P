@@ -148,6 +148,7 @@ void ShiftRegOut(unsigned char bit, unsigned long val)
 
         //　書き込みクロック
         digitalWrite(CLOCKPIN, HIGH);
+        delayMicroseconds(100);
         digitalWrite(CLOCKPIN, LOW);
     }
 
