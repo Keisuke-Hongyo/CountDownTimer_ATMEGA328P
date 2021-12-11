@@ -130,6 +130,9 @@ typedef struct TactSw
 /* 最大日数格納変数 */
 unsigned int MaxDay;
 
+/* 残り日数保存変数 */
+volatile long dd;
+
 /*******************************************************************************
 *   ShiftRegOut - シフトレジスタへの出力関数                                     *
 *    bit    : 出力するビット数を指定                                             *
@@ -148,8 +151,9 @@ void ShiftRegOut(unsigned char bit, unsigned long val)
 
         //　書き込みクロック
         digitalWrite(CLOCKPIN, HIGH);
-        delayMicroseconds(100);
+        delay(1);
         digitalWrite(CLOCKPIN, LOW);
+        delay(1);
     }
 
     digitalWrite(LATCHPIN, HIGH); // 送信後はLATCHPINをHIGHに戻す
@@ -498,7 +502,6 @@ void setDistDay(TactSw *sw)
             lcd.setCursor(0, 1);
             lcd.print("Max Day=");
             lcd.print(MaxDay);
-            lcd.print("   ");
             break;
 
         case 4:
@@ -606,6 +609,9 @@ void setup()
 
     /* GPS受信状態変数初期化 */
     gpsState = OFF;
+
+    /* 残り日数初期化 */
+    dd = MAXDIGIT + 1;
 }
 
 /* メインループ関数 */
@@ -678,8 +684,15 @@ void loop()
                 // Debug Console
                 //printDebug(jst, d);
 
-                setDig(d, &segment);
-                ShiftRegOut(MAXBIT, segment.outdata);
+                // 更新処理
+                if(d != dd) {
+                    /* ７セグ出力 */
+                    setDig(d, &segment);
+                    ShiftRegOut(MAXBIT, segment.outdata);
+                    
+                    // データを更新
+                    dd = d;
+                }
             }
         }
     }
