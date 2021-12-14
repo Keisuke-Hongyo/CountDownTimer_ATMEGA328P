@@ -133,12 +133,13 @@ unsigned int MaxDay;
 /* 残り日数保存変数 */
 volatile long dd;
 
+
 /*******************************************************************************
-*   ShiftRegOut - シフトレジスタへの出力関数                                     *
-*    bit    : 出力するビット数を指定                                             *
-*    val    : 出力するデータ                                                    *
-*    return : 戻り値なし　　　　　　　　　　　　　　　　　　　　　　　　            *
-*******************************************************************************/
+ *   ShiftRegOut - シフトレジスタへの出力関数                                     *
+ *    bit    : 出力するビット数を指定                                             *
+ *    val    : 出力するデータ                                                    *
+ *    return : 戻り値なし　　　　　　　　　　　　　　　　　　　　　　　　            *
+ *******************************************************************************/
 void ShiftRegOut(unsigned char bit, unsigned long val)
 {
     digitalWrite(LATCHPIN, LOW); // 送信中はLATCHPINをLOWに
@@ -151,20 +152,18 @@ void ShiftRegOut(unsigned char bit, unsigned long val)
 
         //　書き込みクロック
         digitalWrite(CLOCKPIN, HIGH);
-        delay(1);
         digitalWrite(CLOCKPIN, LOW);
-        delay(1);
     }
 
     digitalWrite(LATCHPIN, HIGH); // 送信後はLATCHPINをHIGHに戻す
 }
 
 /*******************************************************************************
-*    setDig - 桁のデータのセット関数                                             *
-*    n          : 値　　　　　　　　　　                                         *
-*    *segment   : セグメント出力用構造体のポインタ                                *
-*    return     : 戻り値なし　　　　　　　　　　　　　　　　　　　　　　            *
-*******************************************************************************/
+ *    setDig - 桁のデータのセット関数                                             *
+ *    n          : 値　　　　　　　　　　                                         *
+ *    *segment   : セグメント出力用構造体のポインタ                                *
+ *    return     : 戻り値なし　　　　　　　　　　　　　　　　　　　　　　            *
+ *******************************************************************************/
 void setDig(long n, Outdata *segment)
 {
     unsigned int place_100, place_10, place_1;
@@ -204,12 +203,12 @@ void setDig(long n, Outdata *segment)
 
 // 日付処理
 /*******************************************************************************
-*    convMjd - グレゴリオ暦を修正ユリウス日へ変換                                 *
-*    year           : 年（西暦)    　　                                         *
-*    month          : 月  　　 　　　　                                         *
-*    day            : 日  　　 　　　　                                         *
-*    return         : 残り日数 　　　　　　　　　　　　　　　　　　　　            *
-*******************************************************************************/
+ *    convMjd - グレゴリオ暦を修正ユリウス日へ変換                                 *
+ *    year           : 年（西暦)    　　                                         *
+ *    month          : 月  　　 　　　　                                         *
+ *    day            : 日  　　 　　　　                                         *
+ *    return         : 残り日数 　　　　　　　　　　　　　　　　　　　　            *
+ *******************************************************************************/
 long convMjd(unsigned int year, unsigned char month, unsigned char day)
 {
     if (month <= 2)
@@ -226,10 +225,10 @@ long convMjd(unsigned int year, unsigned char month, unsigned char day)
 }
 
 /*******************************************************************************
-*    utcTojst - 協定世界時(UTC)から日本標準時(JST)に変換                         *
-*    jstDate        : 日本標準時刻格納構造体                                    *
-*    return         : none                                    　　            *
-*******************************************************************************/
+ *    utcTojst - 協定世界時(UTC)から日本標準時(JST)に変換                         *
+ *    jstDate        : 日本標準時刻格納構造体                                    *
+ *    return         : none                                    　　            *
+ *******************************************************************************/
 void utcTojst(jstDate *jst)
 {
     unsigned char p;
@@ -278,10 +277,10 @@ void utcTojst(jstDate *jst)
     }
 }
 /*******************************************************************************
-* printDebug - 動作確認用出力関数（シリアルで出力                                 *
-*    argument : jst : 日本標準時刻格納構造体  d:残り日数計算結果　　               * 
-*    return   : None                                                           *
-*******************************************************************************/
+ * printDebug - 動作確認用出力関数（シリアルで出力                                 *
+ *    argument : jst : 日本標準時刻格納構造体  d:残り日数計算結果　　               *
+ *    return   : None                                                           *
+ *******************************************************************************/
 void printDebug(jstDate jst, unsigned long d)
 {
     Serial.print(jst.year);
@@ -306,12 +305,12 @@ void printDebug(jstDate jst, unsigned long d)
 }
 
 /*******************************************************************************
-* checkSw - スイッチ状態確認                                                    *
-*    argument : swFlg -> スイッチ状態変数                                       *
-*               00   xx  xx  xx   (xx: 00 SW OFF 01 SW ON 11:SW ON -> SW OFF)  * 
-*               None SW3 SW2 SW1                                               * 
-*    return   : None                                                           *
-*******************************************************************************/
+ * checkSw - スイッチ状態確認                                                    *
+ *    argument : swFlg -> スイッチ状態変数                                       *
+ *               00   xx  xx  xx   (xx: 00 SW OFF 01 SW ON 11:SW ON -> SW OFF)  *
+ *               None SW3 SW2 SW1                                               *
+ *    return   : None                                                           *
+ *******************************************************************************/
 unsigned char checkSw(TactSw *swFlg)
 {
     // スイッチが押されたか確認
@@ -353,10 +352,10 @@ unsigned char checkSw(TactSw *swFlg)
     }
 }
 /*******************************************************************************
-* setDistDay - 日数設定関数                    　                                  *
-*    argument : sw -> スイッチ状態格納構造体                                     *
-*    return   : None                                                           *
-*******************************************************************************/
+ * setDistDay - 日数設定関数                    　                                  *
+ *    argument : sw -> スイッチ状態格納構造体                                     *
+ *    return   : None                                                           *
+ *******************************************************************************/
 void setDistDay(TactSw *sw)
 {
     unsigned char mode = 0;
@@ -502,6 +501,7 @@ void setDistDay(TactSw *sw)
             lcd.setCursor(0, 1);
             lcd.print("Max Day=");
             lcd.print(MaxDay);
+            lcd.print("   ");
             break;
 
         case 4:
@@ -518,8 +518,8 @@ void setDistDay(TactSw *sw)
                 EEPROM.write(0x002, yy % 100);
                 EEPROM.write(0x003, mm);
                 EEPROM.write(0x004, dd);
-                EEPROM.write(0x005,MaxDay / 100);
-                EEPROM.write(0x006,MaxDay % 100);
+                EEPROM.write(0x005, MaxDay / 100);
+                EEPROM.write(0x006, MaxDay % 100);
 
                 /* データを設定 */
                 setdate.yy = yy;
@@ -564,8 +564,42 @@ void msg(jstDate jst, long d)
 }
 
 /*******************************************************************************
-* setup - 初期化関数　　　　                                                    *
-*******************************************************************************/
+ * CheckMode - 表示確認関数　　　　                                                    *
+ *******************************************************************************/
+void CheckMode(void)
+{
+    Outdata segment;
+    unsigned char i;
+    static long d = 0;
+
+    while (1)
+    {
+        for (i = 0; i <= 9; i++)
+        {
+            segment.segData.dig_1 = seg[i];
+            segment.segData.dig_10 = seg[i];
+            segment.segData.dig_100 = seg[i];
+            ShiftRegOut(MAXBIT, segment.outdata);
+            delay(1000);
+        }
+
+        segment.segData.dig_1 = BAR;
+        segment.segData.dig_10 = BAR;
+        segment.segData.dig_100 = BAR;
+        ShiftRegOut(MAXBIT, segment.outdata);
+        delay(1000);
+
+        segment.segData.dig_1 = BLKOUT;
+        segment.segData.dig_10 = BLKOUT;
+        segment.segData.dig_100 = BLKOUT;
+        ShiftRegOut(MAXBIT, segment.outdata);
+        delay(500);
+
+    }
+}
+/*******************************************************************************
+ * setup - 初期化関数　　　　                                                    *
+ *******************************************************************************/
 void setup()
 {
     // 入出力ピンの設定
@@ -622,7 +656,12 @@ void loop()
     static long d = 0;
     static jstDate jst;
     static TactSw sw;
-    
+
+    if (digitalRead(SW1) == ON)
+    {
+        CheckMode();
+    }
+
     // メイン
     while (1)
     {
@@ -659,6 +698,7 @@ void loop()
             // 7セグメント表示
             setDig(d, &segment);
             ShiftRegOut(MAXBIT, segment.outdata);
+            dd = d;
 
             // 液晶をクリア
             lcd.clear();
@@ -681,16 +721,15 @@ void loop()
                 if (d > MAXDIGIT)
                     d = MAXDIGIT;
 
+                // シリアルモニター用
                 // Debug Console
-                //printDebug(jst, d);
+                // printDebug(jst, d);
 
-                // 更新処理
-                if(d != dd) {
-                    /* ７セグ出力 */
+                // 残り日数に変化があれば表示を更新する。
+                if (d != dd)
+                {
                     setDig(d, &segment);
                     ShiftRegOut(MAXBIT, segment.outdata);
-                    
-                    // データを更新
                     dd = d;
                 }
             }
