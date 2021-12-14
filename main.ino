@@ -558,6 +558,10 @@ void msg(jstDate jst, long d)
     lcd.setCursor(0, 1);
     lcd.print(buf);
 }
+
+/*******************************************************************************
+ * CheckMode - 表示確認関数　　　　                                                    *
+ *******************************************************************************/
 void CheckMode(void)
 {
     Outdata segment;
@@ -710,9 +714,11 @@ void loop()
                 if (d > MAXDIGIT)
                     d = MAXDIGIT;
 
+                // シリアルモニター用
                 // Debug Console
                 // printDebug(jst, d);
 
+                // 残り日数に変化があれば表示を更新する。
                 if (d != dd)
                 {
                     setDig(d, &segment);
