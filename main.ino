@@ -143,7 +143,7 @@ volatile long dd;
 void ShiftRegOut(unsigned char bit, unsigned long val)
 {
     digitalWrite(LATCHPIN, LOW); // 送信中はLATCHPINをLOWに
-    delay(10);
+    delay(5);
     // シフトレジスタにデータを送る
     for (int i = 0; i < bit; i++)
     {
@@ -152,13 +152,13 @@ void ShiftRegOut(unsigned char bit, unsigned long val)
 
         //　書き込みクロック
         digitalWrite(CLOCKPIN, HIGH);
-        delay(100);
+        delay(5);
         digitalWrite(CLOCKPIN, LOW);
-        delay(100);
+        delay(5);
     }
 
     digitalWrite(LATCHPIN, HIGH); // 送信後はLATCHPINをHIGHに戻す
-    delay(10);
+    delay(5);
 }
 
 /*******************************************************************************
@@ -575,6 +575,10 @@ void CheckMode(void)
     unsigned char i;
     static long d = 0;
 
+    lcd.setCursor(0, 0);
+    lcd.print("Test Mode");
+    lcd.setCursor(0, 1);
+    lcd.print("Count up Segment");
     while (1)
     {
         for (i = 0; i <= 9; i++)
@@ -583,14 +587,14 @@ void CheckMode(void)
             segment.segData.dig_10 = seg[i];
             segment.segData.dig_100 = seg[i];
             ShiftRegOut(MAXBIT, segment.outdata);
-            delay(1000);
+            delay(500);
         }
 
         segment.segData.dig_1 = BAR;
         segment.segData.dig_10 = BAR;
         segment.segData.dig_100 = BAR;
         ShiftRegOut(MAXBIT, segment.outdata);
-        delay(1000);
+        delay(500);
 
         segment.segData.dig_1 = BLKOUT;
         segment.segData.dig_10 = BLKOUT;
