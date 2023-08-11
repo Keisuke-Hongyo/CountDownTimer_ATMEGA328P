@@ -143,11 +143,8 @@ volatile long dd;
 void ShiftRegOut(unsigned char bit, unsigned long val)
 {
     digitalWrite(LATCHPIN, LOW); // 送信中はLATCHPINをLOWに
-<<<<<<< HEAD
+
     delay(1);
-=======
-    delay(5);
->>>>>>> a7319c3aa4601877a241be441a5d76010db9b7ce
     // シフトレジスタにデータを送る
     for (int i = 0; i < bit; i++)
     {
@@ -156,21 +153,11 @@ void ShiftRegOut(unsigned char bit, unsigned long val)
 
         //　書き込みクロック
         digitalWrite(CLOCKPIN, HIGH);
-<<<<<<< HEAD
         digitalWrite(CLOCKPIN, LOW);
     }
 
     digitalWrite(LATCHPIN, HIGH); // 送信後はLATCHPINをHIGHに戻す
     delay(1);
-=======
-        delay(5);
-        digitalWrite(CLOCKPIN, LOW);
-        delay(5);
-    }
-
-    digitalWrite(LATCHPIN, HIGH); // 送信後はLATCHPINをHIGHに戻す
-    delay(5);
->>>>>>> a7319c3aa4601877a241be441a5d76010db9b7ce
 }
 
 /*******************************************************************************
